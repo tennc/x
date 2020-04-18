@@ -54,5 +54,31 @@ body{
 </div>
 </div>
 </div>
+	<script>
+    (function (window, document) {
+        var get = function (id) {
+            return document.getElementById(id);
+        }
+        var bind = function (element, event, callback) {
+            return element.addEventListener(event, callback);
+        }
+        var auto = true;
+        var player1 = get('player1');
+        var randomm = function () {
+            player1.src = 'api.php?_t=' + Math.random();
+            player1.play();
+        }
+        bind(get('bf'), 'click', randomm);
+        bind(player1, 'error', function () {
+            randomm();
+        });
+        bind(get('switch'), 'click', function () {
+            auto = !auto;
+            this.innerText = '连续: ' + (auto ? '开' : '关');
+        });
+        bind(player1, 'ended', function () {
+            if (auto) randomm();
+        });
+    })(window, document);</script>
 </body>
 </html>
